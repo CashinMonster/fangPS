@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#img1{
+				position: absolute;
+				left: 200px;
+				top: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<img id="img1" src="game_bg.jpg"/>
+	</body>
+	<script src="mouseWheel.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var img1 = document.querySelector("#img1");
+		//0.5*-10 = -5
+		//鼠标在图片中的比例*图片大小的变化量=left的变化量
+		//原本的left-left的变化量=最新的left值
+		mouseWheel(img1,function (ev,down){
+			
+			//获取在图片中的比例
+			var oldWidth = this.offsetWidth;//获取老的宽度
+			var oldHeight = this.offsetHeight;
+			var x = ev.clientX;//鼠标的坐标
+			var y = ev.clientY;
+			var oldLeft = this.offsetLeft;//老的left
+			var oldTop = this.offsetTop;
+			//获取横向的比例
+			var scaleX = (x-oldLeft)/oldWidth;
+			var scaleY = (y-oldTop)/oldHeight;
+			
+			if(down){
+//				this.style.width = oldWidth+10+"px";
+				this.width = oldWidth+10;
+				if (this.width>500){
+					this.width = 500;
+				}
+			}else{
+				this.width = oldWidth-10;
+				if (this.width<100){
+					this.width = 100;
+				}
+			}
+			
+			//获取图片大小的变化量
+			var imgChangeWidth = this.offsetWidth-oldWidth;
+			var imgChangeHeight = this.offsetHeight-oldHeight;
+			
+			var l = oldLeft-(scaleX*imgChangeWidth);
+			var t = oldTop-(scaleY*imgChangeHeight);
+			this.style.left = l+"px";
+			this.style.top = t+"px";
+			
+			
+		});
+	</script>
+</html>
+
+
+
+
+
+
+
+
+
+
